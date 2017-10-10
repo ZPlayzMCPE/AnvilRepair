@@ -44,11 +44,11 @@ class Main extends PluginBase implements Listener{
 			 $user = strtolower($player->getName());
 			 if($this->sneak != false){
 			 	if(isset($this->tap[$user]) and $time - $this->tap[$user] < 1){
-			 		$this->repararItem($player);
+			 		$this->repairItem($player);
 			 		unset($this->tap[$user]);
 			 	}else{
 			 		$this->tap[$user] = $time;
-			 		$player->sendMessage($this->cfg['msg-tap'].$this->cfg['reparar-money-cost']);
+			 		$player->sendMessage($this->cfg['msg-tap'].$this->cfg['repair-money-cost']);
 			 		return;
 			 	}
 			 }
@@ -56,7 +56,7 @@ class Main extends PluginBase implements Listener{
 		}
 	}
 	
-	public function repararItem(Player $player){
+	public function repairItem(Player $player){
 		$ids = [298,299,300,301,302,303,304,305,306,307,308,309,310, 311,312,313,314,315,316,317,256,257,258,267,292,268,269,270,271,290,272,273,274,275,291,276,277,278,279,293,283,284,285,286,294,261];
 		$money = $this->getEconomy()->myMoney($player);
 		$reCost = $this->cfg['reparar-money-cost'];
@@ -64,11 +64,11 @@ class Main extends PluginBase implements Listener{
 		$cost = $reCost - $money;
 		
 		if($money < $reCost){
-			$player->sendMessage($this->cfg['msg-sem-money'].$cost);
+			$player->sendMessage($this->cfg['msg-the-money'].$cost);
 			return;
 		}
 		if(!in_array($hand->getId(), $ids)){
-			$player->sendMessage($this->cfg['msg-item-nao-permitido']);
+			$player->sendMessage($this->cfg['msg-item-no-permission']);
 			return;
 		}
 		$item = Item::get($hand->getId(), 0, $hand->getCount());
@@ -86,6 +86,6 @@ class Main extends PluginBase implements Listener{
 		}
 		$this->getEconomy()->reduceMoney($player, $reCost);
 		$player->getInventory()->setItemInHand($item);
-		$player->sendMessage($this->cfg['msg-sucesso']);
+		$player->sendMessage($this->cfg['msg-sucess']);
 	}
 }
